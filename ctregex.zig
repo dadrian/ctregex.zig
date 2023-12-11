@@ -646,7 +646,7 @@ const RegexParser = struct {
             if (self.is_exclusive) return 1;
             var min_len: usize = std.math.maxInt(usize);
             for (self.rules) |rule| {
-                var curr_len: usize = switch (rule) {
+                const curr_len: usize = switch (rule) {
                     .char => |c| charLenInEncoding(c, encoding),
                     .range => |range| charLenInEncoding(range.start, encoding),
                     .char_class => |class| charClassMinLen(class, encoding),
@@ -835,7 +835,7 @@ inline fn matchSubExpr(comptime sub_expr: RegexParser.SubExpr, comptime options:
                         }
                     } else {
                         // TODO Using an inline while here crashes the compiler in codegen
-                        var curr_additional_rep: usize = 0;
+                        const curr_additional_rep: usize = 0;
                         _ = curr_additional_rep;
                         while (curr_rep < range.max) : (curr_rep += 1) {
                             if (try matchAtom(atom.data, options, str[curr_slice.len..], result)) |matched_slice| {
